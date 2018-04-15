@@ -1,6 +1,6 @@
 {
-  "name": "node-express-mongo-starter",
-  "version": "0.0.0",
+  "name": "barebones-node",
+  "version": "1.0.0",
   "private": true,
   "engines": {
     "node": "^8.11.1"
