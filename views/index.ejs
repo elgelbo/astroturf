@@ -1,10 +1,25 @@
-<!DOCTYPE html>
 <html>
+
 <head>
-  <% include ./partials/header.ejs %>
+  <meta charset='utf-8' />
+  <title>Add a GeoJSON polygon</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.1/mapbox-gl-geocoder.min.js'></script>
+  <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.1/mapbox-gl-geocoder.css' type='text/css' />
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
-<p>yo</p>
+  <p><%= Txt%></p>
+  <p><%= Obj.Name%></p>
+  <div id='map'></div>
 </body>
+<script src="main.js"></script>
+<script>
+var data = <%- JSON.stringify(Obj) %>;
+console.log(data);
+</script>
+
 </html>
