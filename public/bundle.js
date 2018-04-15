@@ -84,7 +84,9 @@ var map = new mapboxgl.Map({
   style: "mapbox://styles/elgelbo/cjflz6ecx0fvf2soa5vbnxyyt"
 });
 var geocoder = new MapboxGeocoder({
-  accessToken: mapboxgl.accessToken
+  accessToken: mapboxgl.accessToken,
+  country: 'US',
+  bbox: [-117.46582031249999, 32.37068286611427, -116.29302978515625, 33.26395335923739]
 });
 map.addControl(geocoder);
 map.on("load", function () {
@@ -105,14 +107,46 @@ map.on("load", function () {
       "circle-color": "#007cbf"
     }
   });
-
-  // Listen for the `geocoder.input` event that is triggered when a user
-  // makes a selection and add a symbol that matches the result.
-  geocoder.on("result", function (ev) {
-    map.getSource("single-point").setData(ev.result.geometry);
-  });
 });
-},{}],2:[function(require,module,exports) {
+function test(t) {
+  if (t === undefined) {
+    return 'Undefined value!';
+  }
+  return t.properties.APN_8;
+}
+
+lastGeocode = "";
+geocoder.on('result', function (ev) {
+  if (ev.result.center.toString() !== lastGeocode) {
+    var getUserData = function getUserData(coords, name) {
+      if (map.loaded() === true) {
+        var features = map.queryRenderedFeatures([window.innerWidth / 2, window.innerHeight / 2], {
+          layers: ['pclssouthsouth-3zrxor']
+        });
+        var popup = new mapboxgl.Popup().setLngLat(ev.result.geometry.coordinates).setHTML("<h2>" + ev.result.text + "</h2><p>APN: " + test(features[0]) + "</p>").addTo(map);
+      } else {
+        setTimeout(getUserData, 100);
+      }
+    };
+
+    map.getSource("single-point").setData(ev.result.geometry);
+
+    getUserData();
+  }
+  lastGeocode = ev.result.center.toString();
+});
+
+// map.querySourceFeatures('pclssouthsouth-3zrxor')
+map.on("click", function (e) {
+  var features = map.queryRenderedFeatures(e.point);
+  if (features[0].layer.id === "pclssouthsouth-3zrxor") {
+    var description = "APN: " + features[0].properties.APN_8;
+    new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(description).addTo(map);
+  } else {
+    console.log("not parcel");
+  }
+});
+},{}],3:[function(require,module,exports) {
 
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -142,7 +176,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '54262' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '62655' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -281,5 +315,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},[2,1])
+},{}]},{},[3,1])
 //# sourceMappingURL=/bundle.map
