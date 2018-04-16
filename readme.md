@@ -1,18 +1,17 @@
-# BAREBONES NODE
-
 ## MongoDB, Express, EJS, NodeJS Starter
 
 Basterdized version of @wesbos [Learn-Node Starter](https://github.com/wesbos/Learn-Node/tree/master/starter-files)
 
 ## Cherry Picking
-I cherry picked the things that worked for me and got rid of those that didn't.
+I cherry picked the things that worked for me and got rid of those that didn't and adapted.
 
-### Keepers
+### Foundation
 * Refactoring / Project Config
 * Error handler
-* HTML / CSS with EJS
+* => Browserify
+* => HTML / CSS with EJS
 
-### Axed
+### Removed
 * SCSS
 * Pug
 * Webpack

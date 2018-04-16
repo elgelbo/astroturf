@@ -1,0 +1,7 @@
+@import url("https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css");
+@import url("https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.1/mapbox-gl-geocoder.css");
+@import url("modules/map.css");
+
+body {
+    background-color: #fff;
+}
