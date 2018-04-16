@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/index');
 const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errorHandlers');
-
 // create our Express app
 const app = express();
 
@@ -44,6 +43,9 @@ if (app.get('env') === 'development') {
 
 // production error handler
 app.use(errorHandlers.productionErrors);
+// Initialise a new bundler using a file and options (for options and file see the bundler documentation)
 
+// Let express use the bundler middleware, this will let parcel handle every request over your express server
+// app.use(bundler.middleware());
 // done! we export it so we can start the site in start.js
 module.exports = app;
