@@ -1,3 +1,4 @@
+const mapboxgl = require('mapbox-gl');
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZWxnZWxibyIsImEiOiJjajRlNXB6dzQwc3FyMzJuaHMwaGo0bTVmIn0.1zglQ_bZTA-DsJ4PJkLAQw";
 var map = new mapboxgl.Map({
@@ -75,3 +76,5 @@ map.on("click", function(e) {
     console.log("not parcel");
   }
 });
+
+module.exports = map;

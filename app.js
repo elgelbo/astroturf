@@ -5,23 +5,8 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/index');
 const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errorHandlers');
-const Bundler = require('parcel-bundler');
 // create our Express app
 const app = express();
-
-const pkgEntry = path.join(__dirname, './public/main.js');
-
-const pkgOptions = {
-  outDir: './public', // The out directory to put the build files in, defaults to dist
-  outFile: 'bundle', // The name of the outputFile
-};
-
-// Initialise a new bundler using a file and options (for options and file see the bundler documentation)
-const bundler = new Bundler(pkgEntry, pkgOptions);
-
-// Let express use the bundler middleware, this will let parcel handle every request over your express server
-app.use(bundler.middleware());
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views')); // this is the folder where we keep our pug files
