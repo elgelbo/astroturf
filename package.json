@@ -7,12 +7,13 @@
   },
   "scripts": {
     "start": "npm run build && node ./start.js",
-    "dev": "npm run build && npm run watch ",
+    "dev": "npm run build && npm run watch",
     "build": "browserify -t [ browserify-css --output ./public/style.css ] ./src/js/main.js -o public/bundle.js",
     "watch": "nodemon ./start.js"
   },
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^2.2.0",
+    "axios": "^0.18.0",
     "body-parser": "^1.18.2",
     "dotenv": "^4.0.0",
     "ejs": "^2.5.8",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "browserify": "^16.2.0",
     "browserify-css": "^0.14.0",
-    "nodemon": "^1.17.3"
+    "nodemon": "^1.17.3",
+    "watchify": "^3.11.0"
   }
 }

@@ -1,5 +1,4 @@
 const mapboxgl = require('mapbox-gl');
-const MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZWxnZWxibyIsImEiOiJjajRlNXB6dzQwc3FyMzJuaHMwaGo0bTVmIn0.1zglQ_bZTA-DsJ4PJkLAQw";
@@ -7,76 +6,35 @@ var map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/elgelbo/cjflz6ecx0fvf2soa5vbnxyyt"
 });
-var geocoder = new MapboxGeocoder({
-  accessToken: mapboxgl.accessToken,
-  country: 'US',
-  bbox: [-117.46582031249999,
-    32.37068286611427, -116.29302978515625,
-    33.26395335923739
-  ]
-});
-map.addControl(geocoder);
-map.on("load", function() {
-  map.addSource("single-point", {
-    type: "geojson",
-    data: {
-      type: "FeatureCollection",
-      features: []
-    }
-  });
 
-  map.addLayer({
-    id: "point",
-    source: "single-point",
-    type: "circle",
-    paint: {
-      "circle-radius": 10,
-      "circle-color": "#007cbf"
-    }
-  });
-});
-function test(t) {
-  if (t === undefined) {
-     return 'Undefined value!';
-  }
-  return t.properties.APN_8;
-}
+// map.on("load", function() {
+//
+// });
 
-lastGeocode = "";
-geocoder.on('result', function(ev) {
-  if (ev.result.center.toString() !== lastGeocode) {
-    map.getSource("single-point").setData(ev.result.geometry);
-    function getUserData(coords, name) {
-      if (map.loaded() === true) {
-        var features = map.queryRenderedFeatures([window.innerWidth / 2, window.innerHeight / 2], {
-          layers: ['pclssouthsouth-3zrxor']
-        });
-        var popup = new mapboxgl.Popup()
-          .setLngLat(ev.result.geometry.coordinates)
-          .setHTML(`<h2>${ev.result.text}</h2><p>APN: ${test(features[0])}</p>`)
-          .addTo(map);
-      } else {
-        setTimeout(getUserData, 100);
-      }
-    }
-    getUserData();
-  }
-  lastGeocode = ev.result.center.toString();
-});
 
 
 // map.querySourceFeatures('pclssouthsouth-3zrxor')
-map.on("click", function(e) {
-  var features = map.queryRenderedFeatures(e.point);
-  if (features[0].layer.id === "pclssouthsouth-3zrxor") {
-    var description = "APN: " + features[0].properties.APN_8;
-    new mapboxgl.Popup()
-      .setLngLat(e.lngLat)
-      .setHTML(description)
-      .addTo(map);
-  } else {
-    console.log("not parcel");
-  }
-});
 
-module.exports = map;
+
+makeMap = (data) => {
+  const geoData = JSON.stringify(data);
+  console.log(geoData);
+
+  map.addSource("national-park", {
+         "type": "geojson",
+         "data": {"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.26956,32.81447]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.1842,32.82209]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.29421,33.04654]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.25232,32.78365]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.01949,32.76506]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.225558185472,32.9020031655509]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.035335488617,32.6603735231558]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.2021011,32.7712275]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.2517811,32.7456979]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.2563794,32.7965098]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.2529161,32.785506]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.16693,32.71625]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.211196899414,32.7409629821777]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.251088345988,32.7698768568836]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.10602,32.58738]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.294556573033,33.0497795359611]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.07487,32.98415]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.249174,32.7453209]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.2334345,32.8684918]},"properties":{"title":"Made in the USA"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-117.228241,32.7262001]},"properties":{"title":"Made in the USA"}}]}
+  });
+
+     map.addLayer({
+         "id": "park-volcanoes",
+         "type": "circle",
+         "source": "national-park",
+         "paint": {
+             "circle-radius": 6,
+             "circle-color": "#B42222"
+         },
+         "filter": ["==", "$type", "Point"],
+     });
+};
+
+module.exports.makeMap = makeMap;
