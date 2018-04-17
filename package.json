@@ -7,9 +7,10 @@
   },
   "scripts": {
     "start": "npm run build && node ./start.js",
-    "dev": "npm run build && npm run watch",
+    "dev": "npm run watch-js & npm run watch",
     "build": "browserify -t [ browserify-css --output ./public/style.css ] ./src/js/main.js -o public/bundle.js",
-    "watch": "nodemon ./start.js"
+    "watch": "nodemon ./start.js",
+    "watch-js": "watchify -t [ browserify-css --output ./public/style.css ] ./src/js/main.js -o public/bundle.js"
   },
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^2.2.0",

@@ -1,12 +1,5 @@
 // const mapboxgl = require('mapbox-gl');
 const axios = require('axios');
-const name = 'Doug';
-
-function getCoffee() {
-  return new Promise(resolve => {
-    setTimeout(() => resolve('☕'), 2000); // it takes 2 seconds to make coffee
-  });
-}
 
 createFeature = (res) => {
   const lat = res.coordinates.latitude;
@@ -33,12 +26,12 @@ async function getData() {
       const feature = createFeature(res);
       collection.push(feature);
     });
-    const featCollect = {
-      "type": "FeatureCollection",
-      "features": collection
-    };
+    // const featCollect = {
+    //   "type": "FeatureCollection",
+    //   "features": collection
+    // };
 
-    return featCollect;
+    return collection;
   } catch (error) {
     console.error(error);
   }
