@@ -8,5 +8,5 @@ const { catchErrors } = require('../handlers/errorHandlers')
 router.get('/',  pageControl.homePage);
 router.get('/yelp',  catchErrors(pageControl.yelpPage));
 router.get('/api/yelp',  catchErrors(pageControl.yelpData));
-
+router.get('/api/yelp/:search',  catchErrors(pageControl.yelpQuery));
 module.exports = router;

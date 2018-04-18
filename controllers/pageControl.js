@@ -16,3 +16,8 @@ exports.yelpData = async (req, res) => {
   const data = await yelpApi.getResults();
   res.json(data);
 }
+
+exports.yelpQuery = async (req, res) => {
+  const queryResults = await yelpApi.queryResults(req.params.search);
+  res.json(queryResults);
+}
