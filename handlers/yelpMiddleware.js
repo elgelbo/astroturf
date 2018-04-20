@@ -43,16 +43,19 @@ getResults = async (name) => {
 module.exports.getResults = getResults;
 
 function yelpQuery(term) {
+  // console.log(term);
   const AuthStr = 'Bearer '.concat(process.env.YELP_API_KEY);
   return axios.get(`https://api.yelp.com/v3/businesses/search?categories=${term}&limit=50&sort_by=distance&latitude=32.75&longitude=-117.15`, {
     headers: {
       Authorization: AuthStr
     }
-  })
+  });
 }
 
 queryResults = async (term) => {
+  // console.log(term);
   const results = await yelpQuery(term);
+  // console.log(results);
   const geo = createGeo(results.data.businesses);
   return geo;
 };

@@ -26633,15 +26633,26 @@ process.umask = function() { return 0; };
 },{}],30:[function(require,module,exports){
 // var css = require('../css/app.css');
 const axios = require('axios');
+// const bling = require('./modules/bling');
 var points = require('./modules/points');
 var map = require('./modules/map');
 
 addYelpData = async () => {
   const response = await axios.get('/api/yelp');
+  console.log(response.data);
   map.makeMap(response.data);
 };
 
 addYelpData();
+
+
+yelpQuery = async () => {
+  const response = await axios.get('/api/search/?q=coffee');
+  console.log(response.data);
+  map.addData(response.data);
+};
+
+yelpQuery();
 
 },{"./modules/map":31,"./modules/points":32,"axios":2}],31:[function(require,module,exports){
 const mapboxgl = require('mapbox-gl');
@@ -26689,9 +26700,63 @@ makeMap = (data) => {
   map.on('mouseleave', 'yelp', function() {
     map.getCanvas().style.cursor = '';
   });
+  map.on('click', 'yelp', function (e) {
+    var coordinates = e.features[0].geometry.coordinates.slice();
+    new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(e.features[0].properties.name)
+        .addTo(map);
+});
 }
 
 module.exports.makeMap = makeMap;
+
+
+
+addData = (data) => {
+  map.addSource('newYelp', {
+    type: 'geojson',
+    data: data
+  });
+  map.addLayer({
+    "id": "newYelp",
+    "type": "symbol",
+    "source": "newYelp",
+    "layout": {
+      'icon-image': 'marker-15',
+      "icon-allow-overlap": true
+    }
+  });
+  const bbox = turf.bbox(data);
+  map.fitBounds(bbox, {'padding': 100});
+  // Center the map on the coordinates of any clicked symbol from the 'yelp' layer.
+  map.on('click', 'newYelp', function(e) {
+    map.flyTo({
+      center: e.features[0].geometry.coordinates,
+      zoom: 16
+    });
+  });
+
+  // Change the cursor to a pointer when the it enters a feature in the 'yelp' layer.
+  map.on('mouseenter', 'newYelp', function() {
+    map.getCanvas().style.cursor = 'pointer';
+  });
+
+  // Change it back to a pointer when it leaves.
+  map.on('mouseleave', 'newYelp', function() {
+    map.getCanvas().style.cursor = '';
+  });
+
+  map.on('click', 'newYelp', function (e) {
+    var coordinates = e.features[0].geometry.coordinates.slice();
+    new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(e.features[0].properties.name)
+        .addTo(map);
+});
+}
+
+module.exports.addData = addData;
 
 },{"@turf/turf":1,"mapbox-gl":28}],32:[function(require,module,exports){
 // const mapboxgl = require('mapbox-gl');

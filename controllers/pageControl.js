@@ -6,9 +6,13 @@ exports.homePage = (req, res) => {
     Txt: 'Yo'});
 }
 
-
-exports.yelpPage = async (req, res) => {
+exports.yelpPage = (req, res) => {
   res.render('yelp', {
+    Txt: 'Yo'});
+}
+
+exports.queryPage = (req, res) => {
+  res.render('geo', {
     Txt: 'Yo'});
 }
 
@@ -17,7 +21,8 @@ exports.yelpData = async (req, res) => {
   res.json(data);
 }
 
-exports.yelpQuery = async (req, res) => {
-  const queryResults = await yelpApi.queryResults(req.params.search);
-  res.json(queryResults);
+exports.queryData = async (req, res) => {
+  let cat = req.query.q;
+  const queryData = await yelpApi.queryResults(cat);
+  res.json(queryData);
 }

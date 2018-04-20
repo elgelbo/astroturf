@@ -8,24 +8,37 @@
   "scripts": {
     "start": "node ./start.js",
     "build": "node ./build.js",
-    "watch": "node ./build.js && nodemon ./start.js"
+    "watch": "nodemon ./start.js"
   },
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^2.2.0",
     "@turf/turf": "^5.1.6",
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",
+    "bootstrap": "^4.1.0",
     "dotenv": "^4.0.0",
     "ejs": "^2.5.8",
     "express": "^4.16.3",
+    "jquery": "^3.3.1",
     "mapbox-gl": "^0.44.2",
     "moment": "^2.22.0",
-    "mongoose": "^4.13.12"
+    "mongoose": "^4.13.12",
+    "popper.js": "^1.14.3"
   },
   "devDependencies": {
     "browserify": "^16.2.0",
     "browserify-css": "^0.14.0",
     "nodemon": "^1.17.3"
   },
-  "nodemonConfig": {}
+  "nodemonConfig": {
+    "verbose": true,
+    "ignore": [
+      ".git",
+      "node_modules/**/node_modules",
+      "public"
+    ],
+    "events": {
+      "restart": "npm run build"
+    }
+  }
 }
